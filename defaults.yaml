@@ -1,0 +1,56 @@
+invites:
+  typeform:
+    # http://helpcenter.typeform.com/hc/en-us/articles/200071986-Data-API
+    url: "https://api.typeform.com/v0/form/{uuid}"
+    # Set to false if you want incomplete forms returned
+    completed: true
+    # Max number of results per page
+    resp_limit: 1000
+    # Set to number larger than your cronjob (to help limit size)
+    mins_back: null
+    # From Your Form: https://{your_username}.typeform.com/to/{your_UUID}
+    uuid: null
+    # Issued via: https://admin.typeform.com/account (Your API Key)
+    api_key: null
+  slack:
+    # Undocumented API, captured on invite page.
+    url: "https://{org}.slack.com/api/users.admin.invite"
+    # Name of your org https://organization.slack.com
+    organization: null
+    # Issued via: https://api.slack.com/web for an admin/owner
+    token: null
+  logging_config:
+    version: 1
+    disable_existing_loggers: False
+    formatters:
+      light:
+        format: '%(asctime)s [%(levelname).1s] %(message)s'
+        datefmt: '%Y-%m-%d %H:%M:%S'
+    handlers:
+      console:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: light
+        stream: ext://sys.stdout
+      email:
+        class: invite.BufferingSMTPHandler
+        level: INFO
+        formatter: light
+        mailhost: [smtp.gmail.com, 587]
+        credentials: [user@gmail.com, userPasswordAtGmailDotCom]
+        secure: []
+        fromaddr: null
+        toaddrs: null
+        subject: Invite's Sent
+        capacity: 1000
+      noid:
+        class: logging.NullHandler
+    loggers:
+      requests:
+        level: NOTSET
+        handlers: [noid]
+        propagate: no
+    root:
+      level: NOTSET
+      handlers:
+        - console
