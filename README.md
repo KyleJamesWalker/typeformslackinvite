@@ -31,6 +31,8 @@ Multiple Organizations:
         fromaddr: gmail_user@gmail.com
         toaddrs: [your_admins@anywhere.com]
         credentials: [gmail_user@gmail.com, gmail_password_for_your_sending_account]
+    root:
+      handlers: [console, email]
   example:
     typeform:
       uuid: yyyy
