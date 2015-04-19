@@ -50,6 +50,10 @@ invites:
         level: NOTSET
         handlers: [noid]
         propagate: no
+      urllib3:
+        level: NOTSET
+        handlers: [noid]
+        propagate: no
     root:
       level: NOTSET
       handlers:
